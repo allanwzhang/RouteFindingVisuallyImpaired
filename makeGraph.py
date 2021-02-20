@@ -17,20 +17,27 @@ def csvToArray(fileName):
     return data
 
 def findIndex(x,y):
-    return int(4950*np.round(y*2)+np.round(x*2))
+    return 4950*int(y*2)+int(x*2)
 
-def fillGrid(data, size, indic):
+def fillGrid(data, size, sizeend, indic):
     for ar in data:
         x = float(ar[0])
         y = float(ar[1])
-        for i in range(-1 * size, size + 1):
-            for j in range(-1 * size, size + 1):
+        for i in range(-1 * size, sizeend):
+            for j in range(-1 * size, sizeend):
                 index = findIndex(x+i/2,y+j/2)
                 if index < len(grid):
+                    if indic == 2 and grid[index] != 0:
+                        continue
                     grid[index] = indic        
 
-'''        
-grid = np.empty(4950*7020)
+'''
+#grid = np.empty(4950*7020)
+grid = np.load("grid.npy")
+
+for i in range(len(grid)):
+    if grid[i] == 2:
+        grid[i] = 0
 
 tree = csvToArray("rectRotatedTree.csv")
 hydrant = csvToArray("rectRotatedHydrant.csv")
@@ -43,11 +50,14 @@ subway = csvToArray("rectRotatedSubwayEntrance.csv")
 #Obstacle = 2
 #Ramp = 3
 
-fillGrid(tree, 3, 2)
-fillGrid(hydrant, 1, 2)
-fillGrid(shelter, 3, 2)
-fillGrid(newsstand, 3, 2)
-fillGrid(subway, 5, 2)
+fillGrid(tree, 2, 1, 2)
+fillGrid(hydrant, 1, 0, 2)
+fillGrid(shelter, 2, 1, 2)
+fillGrid(newsstand, 1, 1, 2)
+fillGrid(subway, 4, 4, 2)
+
+np.save("grid.npy", grid)
+
 '''
 
 grid = np.load("grid.npy")
@@ -67,7 +77,7 @@ def bresenham(x1, y1, x2, y2):
     if y2 < y1:
         yStep = -1
     dx = x2-x1
-    err = dx>>1
+    err = int(dx>>1)
     y = y1
     for x in range(x1, x2+1):
         if flip:
@@ -79,6 +89,10 @@ def bresenham(x1, y1, x2, y2):
             y += yStep
             err += dx
 
+for i in range(len(grid)):
+    if grid[i] == 1:
+        grid[i] = 0
+      
 for ar in swData:
     for i in range(len(ar)-1):
         curr = ar[i][1:-1].split(", ")
@@ -88,28 +102,51 @@ for ar in swData:
         adjX = float(adj[0])
         adjY = float(adj[1])
         d = np.sqrt((currX-adjX)**2+(currY-adjY)**2)
-        if(d < 1):
+        if d > 50 and (currY - adjY)/(currX-adjX) < -0.15 and (currY - adjY)/(currX-adjX) > -1:
+            continue
+        if d < 1:
             grid[findIndex(currX, currY)] = 1
             grid[findIndex(adjX, adjY)] = 1
         else:
             ci = findIndex(currX, currY)
             ai = findIndex(adjX, adjY)
-            if ci%4950 == ai%4950:
-                minY = min(int(ci/4950), int(ai/4950))
-                maxY = max(int(ci/4950), int(ai/4950))
+            cix = ci%4950
+            ciy = int(ci/4950)
+            aix = ai%4950
+            aiy = int(ai/4950)
+            if cix == aix:
+                minY = min(ciy, aiy)
+                maxY = max(ciy, aiy)
                 for j in range(minY, maxY+1):
-                    grid[ci%4950+j*4950] = 1
-            elif int(ci/4950)==int(ai/4950):
-                minY = min(int(ci%4950), int(ai%4950))
-                maxY = max(int(ci%4950), int(ai%4950))
+                    grid[cix+j*4950] = 1
+            elif ciy==aiy:
+                minX = min(cix, aix)
+                maxX = max(cix, aix)
+                for j in range(minX, maxX+1):
+                    grid[j+ciy*4950] = 1
+            elif abs(cix-aix) <= 3:
+                minY = min(ciy, aiy)
+                maxY = max(ciy, aiy)
                 for j in range(minY, maxY+1):
-                    grid[j+int(ci/4950)*4950] = 1
+                    grid[min(cix, aix)+j*4950] = 1
+                for j in range(min(cix, aix)+1, max(cix, aix)+1):
+                    grid[maxY*4950+j]=1
+            elif abs(ciy-aiy) <= 3:
+                minX = min(cix, aix)
+                maxX = max(cix, aix)
+                for j in range(minX, maxX+1):
+                    grid[4950*min(ciy, aiy)+j] = 1
+                for j in range(min(ciy, aiy)+1, max(ciy, aiy)+1):
+                    grid[j*4950+maxX]=1
             else:
+                if (currY - adjY)/(currX-adjX) > 0.5:
+                    continue
                 if ci%4950 < ai%4950:
                     bresenham(ci%4950, int(ci/4950), ai%4950, int(ai/4950))
                 else:
                     bresenham(ai%4950, int(ai/4950), ci%4950, int(ci/4950))
+    
 
 ramp = csvToArray("rectRotatedRamp.csv")
-fillGrid(ramp, 0, 3)
+fillGrid(ramp, 0, 1, 3)
 np.save("grid.npy", grid)
