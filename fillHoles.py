@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 graph = np.load("cutGrid.npy")
 
-
+'''
 graph[7*1030+44]=1
 graph[148*1030+21]=1
 graph[147*1030+313]=1
@@ -37,19 +37,49 @@ graph[459*1030+14]=1
 graph[465*1030+20]=1
 graph[465*1030+114]=1
 graph[328*1030+1011]=1
+graph[506*1030+14]=1
+graph[617*1030+13]=1
+graph[494*1030+277]=1
+graph[616*1030+309]=1
 
+def bresenham(x1, y1, x2, y2):
+    flip = abs(y2-y1) > abs(x2-x1)
+    if flip:
+        tmp = x1
+        x1 = y1
+        y1 = tmp
+        tmp = x2
+        x2 = y2
+        y2 = tmp
+    derr = abs(y2-y1)
+    yStep = 1
+    if y2 < y1:
+        yStep = -1
+    dx = x2-x1
+    err = int(dx>>1)
+    y = y1
+    for x in range(x1, x2+1):
+        if flip:
+            graph[x*1030+y] = 1
+        else:
+            graph[y*1030+x] = 1
+        err -= derr
+        if err < 0:
+            y += yStep
+            err += dx
 
-x = np.empty(2066)
-y = np.empty(2066)
+bresenham(715, 617, 722, 622)
+'''
+
+x = np.empty(20781)
+y = np.empty(20781)
 
 #1030: 0, 280, 600, 1030
 #630: 0, 310, 480, 630
 
-#0-280, 280-600, 600-1030 (480-630)
-
 index = 0
-for i in range(600, 1030):
-    for j in range(310, 480):
+for i in range(0, 1030):
+    for j in range(0, 630):
         if graph[j*1030+i] == 1:
             x[index] = i
             y[index] = j

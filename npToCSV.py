@@ -14,21 +14,20 @@ def writeCSV(data, fileName):
         for ar in data:
             writer.writerow(ar)
             
-grid = np.load("grid.npy")
+grid = np.load("cutGrid.npy")
 
-'''
+
 write = []
 
-for j in range(5560, 6190):
+for j in range(0, 630):
     arr = []
-    for i in range(3450, 4480):
-        arr.append(int(grid[j*4950+i]))
-        count+=1
+    for i in range(0, 1030):
+        arr.append(int(grid[j*1030+i]))
     write.append(arr)
     
 writeCSV(write, "cutGraph.csv")
-'''
 
+'''
 grid2 = np.empty(1030*630)
 count=0
 for j in range(5560, 6190):
@@ -37,3 +36,4 @@ for j in range(5560, 6190):
         count+=1
 
 np.save("cutGrid.npy", grid2)
+'''
