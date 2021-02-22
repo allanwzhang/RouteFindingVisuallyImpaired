@@ -125,17 +125,35 @@ for ar in swData:
                 for j in range(minX, maxX+1):
                     grid[j+ciy*4950] = 1
             elif abs(cix-aix) <= 3:
-                minY = min(ciy, aiy)
-                maxY = max(ciy, aiy)
+                cX = 0
+                minY = 0
+                maxY = 0
+                if ciy < aiy:
+                    minY = ciy
+                    maxY = aiy
+                    cX = cix
+                else:
+                    minY = aiy
+                    maxY = ciy
+                    cX = aix
                 for j in range(minY, maxY+1):
-                    grid[min(cix, aix)+j*4950] = 1
+                    grid[cX+j*4950] = 1
                 for j in range(min(cix, aix)+1, max(cix, aix)+1):
                     grid[maxY*4950+j]=1
             elif abs(ciy-aiy) <= 3:
-                minX = min(cix, aix)
-                maxX = max(cix, aix)
+                cY = 0
+                minX = 0
+                maxX = 0
+                if cix < aix:
+                    minX = cix
+                    maxX = aix
+                    cY = ciy
+                else:
+                    minX = aix
+                    maxX = cix
+                    cY = aiy
                 for j in range(minX, maxX+1):
-                    grid[4950*min(ciy, aiy)+j] = 1
+                    grid[4950*cY+j] = 1
                 for j in range(min(ciy, aiy)+1, max(ciy, aiy)+1):
                     grid[j*4950+maxX]=1
             else:
