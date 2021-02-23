@@ -26,7 +26,6 @@ for j in range(0, 630):
     write.append(arr)
     
 writeCSV(write, "cutGraph.csv")
-
 '''
 grid2 = np.empty(1030*630)
 count=0
