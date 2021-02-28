@@ -48,7 +48,8 @@ public class AStarAlg {
 				int manDist = Math.abs(curr.x-1-ex) + Math.abs(curr.y-ey);
 				int turn = 0;
 				if(curr.dir=='U'||curr.dir=='D') turn = 1;
-				double nextScore = ((manDist+curr.dist+1.0)/(totalDist*2))*WDIST + ((maxNearest-nearest[curr.x-1][curr.y])/maxNearest)*WNEAR + turn*WTURN;   
+//				double nextScore = ((manDist+curr.dist+1.0)/(totalDist*2))*WDIST + ((maxNearest-nearest[curr.x-1][curr.y])/maxNearest)*WNEAR + turn*WTURN;   
+				double nextScore = ((curr.dist+1.0)/totalDist)/2 + ((manDist/totalDist)*WDIST + ((maxNearest-nearest[curr.x-1][curr.y])/maxNearest)*WNEAR + turn*WTURN)/2;
 				pq.add(new Grid(curr.x-1, curr.y, 'L', nextScore, curr.dist+1, curr));
 			}
 			
@@ -56,7 +57,8 @@ public class AStarAlg {
 				int manDist = Math.abs(curr.x+1-ex) + Math.abs(curr.y-ey);
 				int turn = 0;
 				if(curr.dir=='U'||curr.dir=='D') turn = 1;
-				double nextScore = ((manDist+curr.dist+1.0)/(totalDist*2))*WDIST + ((maxNearest-nearest[curr.x+1][curr.y])/maxNearest)*WNEAR + turn*WTURN;
+//				double nextScore = ((manDist+curr.dist+1.0)/(totalDist*2))*WDIST + ((maxNearest-nearest[curr.x+1][curr.y])/maxNearest)*WNEAR + turn*WTURN;
+				double nextScore = ((curr.dist+1.0)/totalDist)/2 + ((manDist/totalDist)*WDIST + ((maxNearest-nearest[curr.x+1][curr.y])/maxNearest)*WNEAR + turn*WTURN)/2;
 				pq.add(new Grid(curr.x+1, curr.y, 'R', nextScore, curr.dist+1, curr));
 			}
 			
@@ -64,7 +66,8 @@ public class AStarAlg {
 				int manDist = Math.abs(curr.x-ex) + Math.abs(curr.y-1-ey);
 				int turn = 0;
 				if(curr.dir=='L'||curr.dir=='R') turn = 1;
-				double nextScore = ((manDist+curr.dist+1.0)/(totalDist*2))*WDIST + ((maxNearest-nearest[curr.x][curr.y-1])/maxNearest)*WNEAR + turn*WTURN;
+//				double nextScore = ((manDist+curr.dist+1.0)/(totalDist*2))*WDIST + ((maxNearest-nearest[curr.x][curr.y-1])/maxNearest)*WNEAR + turn*WTURN;
+				double nextScore = ((curr.dist+1.0)/totalDist)/2 + ((manDist/totalDist)*WDIST + ((maxNearest-nearest[curr.x][curr.y-1])/maxNearest)*WNEAR + turn*WTURN)/2;
 				pq.add(new Grid(curr.x, curr.y-1, 'D', nextScore, curr.dist+1, curr));
 			}
 			
@@ -72,7 +75,8 @@ public class AStarAlg {
 				int manDist = Math.abs(curr.x-ex) + Math.abs(curr.y+1-ey);
 				int turn = 0;
 				if(curr.dir=='L'||curr.dir=='R') turn = 1;
-				double nextScore = ((manDist+curr.dist+1.0)/(totalDist*2))*WDIST + ((maxNearest-nearest[curr.x][curr.y+1])/maxNearest)*WNEAR + turn*WTURN;
+//				double nextScore = ((manDist+curr.dist+1.0)/(totalDist*2))*WDIST + ((maxNearest-nearest[curr.x][curr.y+1])/maxNearest)*WNEAR + turn*WTURN;
+				double nextScore = ((curr.dist+1.0)/totalDist)/2 + ((manDist/totalDist)*WDIST + ((maxNearest-nearest[curr.x][curr.y+1])/maxNearest)*WNEAR + turn*WTURN)/2;
 				pq.add(new Grid(curr.x, curr.y+1, 'U', nextScore, curr.dist+1, curr));
 			}
 		}

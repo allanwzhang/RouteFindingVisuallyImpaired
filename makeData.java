@@ -79,7 +79,6 @@ public class makeData {
 			for(int j = 1; j < grid[i].length; j++) {
 				sb.append(","+grid[i][j]);
 			}
-			if(i > 625) System.out.println(sb.toString());
 			out.println(sb.toString());
 		}
 	}
