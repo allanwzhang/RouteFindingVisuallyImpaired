@@ -23,12 +23,12 @@ def csvToArray(fileName):
 graph = csvToArray("C:\Allan\intermediate\\testGraph.csv")
 
 #22562
-x = np.empty(22562)
-y = np.empty(22562)
+x = np.empty(2554)
+y = np.empty(2554)
 
 index = 0
-for i in range(0, 1030):
-    for j in range(0, 630):
+for i in range(300, 592):
+    for j in range(400, 630):
         if graph[j*1030+i] == 1:
             x[index] = i
             y[index] = j
@@ -38,24 +38,24 @@ print(index)
 plt.scatter(x, y)
 
 #2198
-x2 = np.empty(2198)
-y2 = np.empty(2198)
+x2 = np.empty(334)
+y2 = np.empty(334)
 
 index = 0
-for i in range(0, 1030):
-    for j in range(0, 630):
+for i in range(300, 592):
+    for j in range(400, 630):
         if graph[j*1030+i] == 2:
             x2[index] = i
             y2[index] = j
             index+=1
 print(index)
 
-plt.scatter(x2, y2)
+plt.scatter(x2, y2, color='black')
 
 fileName = "C:\Allan\intermediate\Path.csv"
 
-x3 = np.empty(1603)
-y3 = np.empty(1603)
+x3 = np.empty(464)
+y3 = np.empty(464)
 
 i=0
 with open(fileName, 'r') as csvfile:
@@ -66,6 +66,6 @@ with open(fileName, 'r') as csvfile:
         i += 1
 print(i)
 
-plt.scatter(x3, y3)
+plt.scatter(x3, y3, color='red')
 
 plt.show()

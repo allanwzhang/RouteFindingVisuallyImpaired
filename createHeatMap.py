@@ -22,11 +22,24 @@ def csvToArray(fileName):
     return data
 
 graph = csvToArray("C:\Allan\intermediate\\showNearest.csv")
-xygraph = np.reshape(graph, (-1, 1030))
+
+values = np.empty(67160)
+
+index = 0
+for j in range(400, 630):
+    for i in range(300, 592):    
+        values[index] = graph[j*1030+i]
+        index+=1
+print(index)
+
+xygraph = np.reshape(values, (-1, 292))
+
+
 #print(xygraph[626])
-for i in range(625, 630):
-    for j in range(0, 1030):
-        xygraph[i][j]=15
+for i in range(224, 230):
+    for j in range(0, 292):
+        xygraph[i][j]=6
+
 
 ax = sns.heatmap(xygraph)
 ax.invert_yaxis()

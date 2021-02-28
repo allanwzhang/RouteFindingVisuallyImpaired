@@ -11,10 +11,9 @@ public class heatmap {
 
 	public static void main(String[] args) throws IOException{
 		int[][] nearest= load("C:\\Allan\\intermediate\\nearestGraph.csv");
-		System.out.println(nearest.length);
 		for(int i = 0; i < nearest.length; i++) {
 			for(int j = 0; j < nearest[0].length; j++) {
-				if(nearest[i][j] == -1 || i > 625) nearest[i][j] = 15;
+				if(nearest[i][j] == -1) nearest[i][j] = 6;
 			}
 		}
 		
@@ -28,7 +27,6 @@ public class heatmap {
 			for(int j = 1; j < grid[i].length; j++) {
 				sb.append(","+grid[i][j]);
 			}
-			if(i>625) System.out.println(sb.toString());
 			out.println(sb.toString());
 		}
 	}

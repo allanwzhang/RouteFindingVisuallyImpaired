@@ -9,7 +9,7 @@ public class AStarAlg {
 		int[][] graph = load("C:\\Allan\\intermediate\\testGraph.csv");
 		int[][] nearest= load("C:\\Allan\\intermediate\\nearestGraph.csv");
 
-		Grid last = findPath(489, 402, 569, 313, graph, nearest);
+		Grid last = findPath(421, 312, 619, 576, graph, nearest);
 		
 		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("C:\\Allan\\intermediate\\Path.csv")));
 		int count = 0;
